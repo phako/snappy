@@ -324,7 +324,11 @@ handle_get_property (GDBusConnection * connection,
   } else if (g_strcmp0 (property_name, "PlaybackStatus") == 0) {
     ret = g_variant_new_string ("Paused");
   } else if (g_strcmp0 (property_name, "LoopStatus") == 0) {
-    ret = g_variant_new_string ("Paused");
+    if (myobj->engine->loop) {
+      ret = g_variant_new_string ("Track");
+    } else {
+      ret = g_variant_new_string ("None");
+    }
   } else if (g_strcmp0 (property_name, "Rate") == 0) {
     ret = g_variant_new_double (0);
   } else if (g_strcmp0 (property_name, "Shuffle") == 0) {
@@ -334,7 +338,7 @@ handle_get_property (GDBusConnection * connection,
   } else if (g_strcmp0 (property_name, "Volume") == 0) {
     ret = g_variant_new_double (0);
   } else if (g_strcmp0 (property_name, "Position") == 0) {
-    ret = g_variant_new_double (0);
+    ret = g_variant_new_int64 (0);
   } else if (g_strcmp0 (property_name, "MinimumRate") == 0) {
     ret = g_variant_new_double (0);
   } else if (g_strcmp0 (property_name, "MaximumRate") == 0) {
